@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the code into the image
 COPY . .
 
-RUN jupyter nbconvert --to python dc_predictive_model.ipynb --output dc_predictive_model.py
+# RUN jupyter nbconvert --to python dc_predictive_model.ipynb --output dc_predictive_model.py
+
 # Set the entrypoint to your training script
-ENTRYPOINT ["python", "dc_predictive_model.py"]
+ENTRYPOINT ["python", "test.py"]
