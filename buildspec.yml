@@ -1,0 +1,35 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 533267114472.dkr.ecr.us-west-2.amazonaws.com
+      - REPOSITORY_URI=533267114472.dkr.ecr.us-west-2.amazonaws.com/awsml/mlrepo
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      # You can also use a custom tag, for example:
+      # IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+      
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG ./code
+  
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Tagging the Docker image...
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
+
+artifacts:
+  files:  # Optional if you want to output any files or logs
+    - '**/*'
+  discard-paths: yes  # No need to keep build folder structure
+
+cache:
+  paths:
+    - '/root/.cache'
