@@ -18,7 +18,7 @@
 
 
 # Use the official SageMaker Python SDK image
-FROM 542918446943.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:1.2-1
+FROM 246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:1.7-1
 
 # Install necessary packages
 RUN pip install --upgrade pip
