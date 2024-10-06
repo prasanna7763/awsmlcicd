@@ -54,20 +54,38 @@ def main():
 
     container = "246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:latest"
 
-    # Set up XGBoost model
+
+    # # Set up XGBoost model
+    # xgb_model = sagemaker.estimator.Estimator(
+    #     image_uri=container,
+    #     role=role,
+    #     instance_count=1,
+    #     instance_type='ml.m4.xlarge',
+    #     volume_size=5,
+    #     output_path=s3_output_location,
+    #     sagemaker_session=sagemaker.Session(),
+    #     rules=[
+    #         Rule.sagemaker(rule_configs.create_xgboost_report()),
+    #         ProfilerRule.sagemaker(rule_configs.ProfilerReport())
+    #     ]
+    # )
+
+    sagemaker_session = sagemaker.Session(boto_session=boto3.Session(region_name=region))
+
     xgb_model = sagemaker.estimator.Estimator(
-        image_uri=container,
-        role=role,
-        instance_count=1,
-        instance_type='ml.m4.xlarge',
-        volume_size=5,
-        output_path=s3_output_location,
-        sagemaker_session=sagemaker.Session(),
-        rules=[
-            Rule.sagemaker(rule_configs.create_xgboost_report()),
-            ProfilerRule.sagemaker(rule_configs.ProfilerReport())
-        ]
+    image_uri=container,
+    role=role,
+    instance_count=1,
+    instance_type='ml.m4.xlarge',
+    volume_size=5,
+    output_path=s3_output_location,
+    sagemaker_session=sagemaker_session,  # Pass the session with region
+    rules=[
+        Rule.sagemaker(rule_configs.create_xgboost_report()),
+        ProfilerRule.sagemaker(rule_configs.ProfilerReport())
+    ]
     )
+
 
     # Set hyperparameters
     xgb_model.set_hyperparameters(
