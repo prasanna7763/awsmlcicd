@@ -52,7 +52,7 @@ def main():
     # Retrieve XGBoost container
     # container = image_uris.retrieve("xgboost", region, "1.2-1")
 
-    container = ""246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:v1.0""
+    container = "246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:v1.0"
 
 
     # # Set up XGBoost model
