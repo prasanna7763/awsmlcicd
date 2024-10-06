@@ -42,11 +42,13 @@ def main():
     
     region = "us-west-2"
     role = "sagemakerRole"
+    bucket = "sagemaker-us-west-2-533267114472"
+    prefix = "demo-sagemaker-xgboost-adult-income-prediction"
 
 
     # Define S3 output location
     s3_output_location = f's3://{bucket}/{prefix}/xgboost_model'
-    
+   
     # Retrieve XGBoost container
     container = image_uris.retrieve("xgboost", region, "1.2-1")
 
