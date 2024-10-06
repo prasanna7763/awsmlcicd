@@ -37,8 +37,12 @@ def main():
     #     os.path.join(prefix, 'data/validation.csv')).upload_file('validation.csv')
 
     # Get AWS Region and Role
-    region = sagemaker.Session().boto_region_name
-    role = sagemaker.get_execution_role()
+    # region = sagemaker.Session().boto_region_name
+    # role = sagemaker.get_execution_role()
+    
+    region = "us-west-2"
+    role = "sagemakerRole"
+
 
     # Define S3 output location
     s3_output_location = f's3://{bucket}/{prefix}/xgboost_model'
