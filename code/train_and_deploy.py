@@ -50,7 +50,9 @@ def main():
     s3_output_location = f's3://{bucket}/{prefix}/xgboost_model'
    
     # Retrieve XGBoost container
-    container = image_uris.retrieve("xgboost", region, "1.2-1")
+    # container = image_uris.retrieve("xgboost", region, "1.2-1")
+
+    container = "246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:latest"
 
     # Set up XGBoost model
     xgb_model = sagemaker.estimator.Estimator(
