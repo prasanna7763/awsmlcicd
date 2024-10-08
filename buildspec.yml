@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 246618743249.dkr.ecr.us-west-2.amazonaws.com
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 116981804886.dkr.ecr.us-west-2.amazonaws.com/awsml/mlrepo
       - REPOSITORY_URI=533267114472.dkr.ecr.us-west-2.amazonaws.com/awsml/mlrepo
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       # You can also use a custom tag, for example:
@@ -22,7 +22,7 @@ phases:
       - echo Tagging the Docker image...
       - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
       - echo Pushing the Docker image to ECR...
-      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 533267114472.dkr.ecr.us-west-2.amazonaws.com
+      - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 116981804886.dkr.ecr.us-west-2.amazonaws.com/awsml/mlrepo
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
 
