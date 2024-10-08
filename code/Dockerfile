@@ -1,16 +1,20 @@
+# Use the official Python image from the Docker Hub
 FROM python:latest
-WORKDIR /usr/local/app
 
-# Install the application dependencies
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the requirements file into the container
 COPY requirements.txt ./
+
+# Install any required packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy in the source code
+# Copy the rest of the application code into the container
+COPY . .
 
+# Expose the port the app runs on
 EXPOSE 5000
 
-# Setup an app user so the container doesn't run as the root user
-RUN useradd app
-USER app
-
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Define the command to run the application
+CMD ["python", "app.py"]
