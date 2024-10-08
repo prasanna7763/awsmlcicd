@@ -1,34 +1,16 @@
-# # Use the official Python image from the 
-# FROM python:3.10
-# # Set working directory
-# WORKDIR /app
-# # Copy the requirements file into the image
-# COPY requirements.txt .
-# # Install dependencies
-# RUN pip install --no-cache-dir -r requirements.txt
+FROM python:3.12
+WORKDIR /usr/local/app
 
-# # Copy the rest of the code into the image
-# COPY . .
+# Install the application dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# # RUN jupyter nbconvert --to python dc_predictive_model.ipynb --output dc_predictive_model.py
+# Copy in the source code
+COPY src ./src
+EXPOSE 5000
 
-# # Set the entrypoint to your training script
-# ENTRYPOINT ["python", "test.py"]
+# Setup an app user so the container doesn't run as the root user
+RUN useradd app
+USER app
 
-
-
-# Use the official SageMaker Python SDK image
-FROM 246618743249.dkr.ecr.us-west-2.amazonaws.com/sagemaker-xgboost:1.7-1
-
-# Install necessary packages
-RUN pip install --upgrade pip
-RUN pip install pandas scikit-learn sagemaker boto3
-
-# Set the working directory
-WORKDIR /app
-
-# Copy your training script into the container
-COPY train_and_deploy.py .
-
-# Set the entrypoint to run your script
-ENTRYPOINT ["python", "train_and_deploy.py"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
